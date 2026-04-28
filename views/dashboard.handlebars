@@ -1,0 +1,46 @@
+<div class="dashboard">
+    <div class="dashboard-header">
+        <div class="dashboard-welcome">
+            <h1 class="dashboard-title">Welcome back, {{user.firstName}}! 🚇</h1>
+            <p class="dashboard-subtitle">
+                Your commutes at a glance
+            </p>
+        </div>
+        <div class="dashboard-actions">
+            <a href="/commutes/new" class="btn btn-primary">
+                <span class="btn-icon">+</span>
+                Add Commute
+            </a>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="dashboard-loading" class="dashboard-loading">
+        <div class="loading-spinner"></div>
+        <p>Loading your commutes...</p>
+    </div>
+
+    <!-- If no commutes -->
+    <div id="dashboard-empty" class="empty-state" style="display: none;">
+        <div class="empty-icon">🗺️</div>
+        <h2 class="empty-title">No Saved Commutes Yet</h2>
+        <p class="empty-description">
+            Create your first commute to start tracking real-time arrivals and connection times.
+        </p>
+        <a href="/commutes/new" class="btn btn-primary btn-large">Create Your First Commute</a>
+    </div>
+
+    <!-- Commutes Container (populated by JS) -->
+    <div id="commutes-container" class="commutes-container" style="display: none;">
+    </div>
+
+    <!-- Error State -->
+    <div id="dashboard-error" class="dashboard-error" style="display: none;">
+        <div class="error-icon">⚠️</div>
+        <h2 class="error-title">Something went wrong</h2>
+        <p id="dashboard-error-message" class="error-description"></p>
+        <button onclick="window.location.reload()" class="btn btn-secondary">Try Again</button>
+    </div>
+</div>
+
+<script src="/js/dashboard.js"></script>

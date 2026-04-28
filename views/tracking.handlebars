@@ -1,0 +1,70 @@
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Live Tracking & Analytics</h1>
+        <p class="dashboard-subtitle">Vehicle positions (Kalman-filtered), route timing stats, historical routing</p>
+    </div>
+
+    <!-- Leaflet CSS/JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Section 1: Live Vehicles -->
+    <section class="card" style="margin-bottom: var(--space-lg);">
+        <h2>Live Vehicle Tracking</h2>
+        <div style="margin-bottom: var(--space-sm);">
+            <select id="commute-filter" style="padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); background: var(--bg-secondary); color: var(--text-primary);">
+                <option value="">Loading commutes...</option>
+            </select>
+            <span id="vehicle-count" style="margin-left: var(--space-sm); color: var(--text-secondary);"></span>
+            <span id="vehicle-updated" style="margin-left: var(--space-sm); color: var(--text-tertiary); font-size: 0.85em;"></span>
+        </div>
+        <div id="map" style="height: 500px; border-radius: var(--radius-sm); margin-bottom: var(--space-sm);"></div>
+        <div id="map-legend" style="font-size: 0.85em; color: var(--text-secondary);"></div>
+    </section>
+
+    <!-- Section 2: Route Timing Stats -->
+    <section class="card" style="margin-bottom: var(--space-lg);">
+        <h2>Route Timing Statistics</h2>
+        <div style="margin-bottom: var(--space-sm);">
+            <select id="stats-system" style="padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); background: var(--bg-secondary); color: var(--text-primary);">
+                <option value="MTA_SUBWAY">MTA Subway</option>
+                <option value="NJT_RAIL">NJT Rail</option>
+            </select>
+            <input id="stats-route" type="text" placeholder="Route ID (e.g. A, 1, 2)" value="A"
+                style="padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); background: var(--bg-secondary); color: var(--text-primary); width: 160px; margin-left: 4px;">
+            <button id="stats-load" class="btn btn-primary" style="margin-left: 4px; padding: 6px 14px;">Load</button>
+            <span id="stats-count" style="margin-left: var(--space-sm); color: var(--text-secondary);"></span>
+        </div>
+        <div id="stats-empty" style="color: var(--text-tertiary); padding: var(--space-md);">
+            Select a system and route, then click Load.
+        </div>
+        <div style="max-height: 350px; overflow-y: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9em; display: none;" id="stats-table">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border-primary); text-align: left;">
+                        <th style="padding: 6px 8px;">From</th>
+                        <th style="padding: 6px 8px;">To</th>
+                        <th style="padding: 6px 8px;">Time Bucket</th>
+                        <th style="padding: 6px 8px;">Day</th>
+                        <th style="padding: 6px 8px;">Samples</th>
+                        <th style="padding: 6px 8px;">Median (min)</th>
+                        <th style="padding: 6px 8px;">Std Dev</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-body"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Link to Route Finder -->
+    <section class="card" style="text-align: center;">
+        <a href="/tracking/route-finder" class="btn btn-primary" style="padding: 10px 24px;">
+            Open Route Finder (RAPTOR)
+        </a>
+        <p style="color: var(--text-tertiary); margin-top: var(--space-sm); font-size: 0.85em;">
+            Search stops by name, find multi-modal routes, compare scheduled vs historical timing
+        </p>
+    </section>
+</div>
+
+<script src="/js/tracking.js"></script>

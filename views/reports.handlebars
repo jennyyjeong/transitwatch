@@ -1,0 +1,91 @@
+<div class="container">
+    <h1 class="section-heading">Accessibility Reports</h1>
+
+    {{> errorAlert}}
+    {{> successAlert}}
+
+    <section class="create-report">
+        <h2 class="subheading">Create a New Report</h2>
+        <form method="POST" action="/reports/new" id="reportForm" class="auth-form">
+            <div class="form-group">
+                <label for="stopSearch" class="form-label">Stops (multi-select)</label>
+                <input type="text" id="stopSearch" class="form-input" placeholder="Search stops..." >
+                <select id="stopSelect" class="form-input" size="6" multiple>
+                    {{#each stopsOptions}}
+                        <option value="{{this.stopId}}|{{this.stopName}}|{{this.transitSystem}}"> {{this.stopName}} ({{this.transitSystem}}) </option>
+                    {{/each}}
+                </select>
+                <button type="button" class="btn btn-secondary" id="addStopBtn">Add Selected Stops</button>
+                <div id="selectedStops" class="selected-stops">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="issueType" class="form-label">Issue Type</label>
+                <select id="issueType" name="issueType" class="form-input" required>
+                    <option value="elevator">Broken Elevator</option>
+                    <option value="escalator">Broken Escalator</option>
+                    <option value="bathroom">Closed Bathroom</option>
+                    <option value="turnstile">Turnstile Malfunction</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="severity" class="form-label"> Severity <span id="severityValue">(5)</span> </label>
+                <input type="range" id="severity" name="severity" min="1" max="10" value="5" class="form-input" >
+                <div class="severity-scale">
+                    <span>1 (Low)</span>
+                    <span>10 (High)</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="status" class="form-label">Status</label>
+                <select id="status" name="status" class="form-input">
+                    <option value="active" selected>Active</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-input" rows="4" placeholder="Describe the issue briefly (max characters allowed is 255)" maxlength="255" ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Report</button>
+        </form>
+    </section>
+
+
+    <section class="my-reports">
+        <h2 class="subheading">My Reports</h2>
+
+        {{#if reports.length}}
+        <div class="commutes-grid">
+            {{#each reports}}
+                <div class="commute-card">
+                    <div class="commute-header">
+                        <h4>Issue: {{this.issueType}} (Severity {{this.severity}})</h4>
+                        <p class="small"><strong>Status:</strong> <span class="status-label {{this.status}}"> {{this.status}} </span></p>
+                    </div>
+                    <div class="report-stops">
+                        <strong>Stops:</strong>
+                        {{#each this.stops}}
+                            <span class="stop-chip"> {{this.stopName}} ({{this.transitSystem}}) </span>
+                        {{/each}}
+                    </div>
+                    <p><strong>Comment:</strong> {{this.description}}</p>
+                    <p class="small"> <strong>Created</strong> {{this.createdAtFormatted}}<br> <strong>Last Updated:</strong> {{this.updatedAtFormatted}} </p>
+                    <p class="small"> <strong>Votes:</strong> {{this.netVotes}} (↑{{this.upvotes}} / ↓{{this.downvotes}}) </p>
+                    <div class="commute-actions">
+                        <a href="/reports/{{this._id}}/edit" class="btn btn-small btn-secondary">Edit</a>
+                        <form method="POST" action="/reports/{{this._id}}/delete" class="inline-form">
+                            <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                        </form>
+                    </div>
+                    </div>
+            {{/each}}
+        </div>
+        {{else}}
+            <p class="empty-description">You have not created any reports yet.</p>
+        {{/if}}
+    </section>
+</div>

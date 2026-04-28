@@ -1,0 +1,66 @@
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1 class="dashboard-title">Route Finder</h1>
+        <p class="dashboard-subtitle">RAPTOR multi-modal routing with optional historical timing adjustment</p>
+    </div>
+
+    <section class="card" style="margin-bottom: var(--space-lg); overflow: visible;">
+        <h2>Find a Route</h2>
+        <div style="margin-bottom: var(--space-md);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-sm);">
+                <div style="position: relative;">
+                    <label style="font-size: 0.85em; color: var(--text-secondary); display: block; margin-bottom: 4px;">From</label>
+                    <input id="from-search" type="text" placeholder="Type a station name..."
+                        autocomplete="off"
+                        style="padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); background: var(--bg-secondary); color: var(--text-primary); width: 100%; box-sizing: border-box; font-size: 1em;">
+                    <input id="from-stop-id" type="hidden">
+                    <div id="from-dropdown" style="position:absolute;top:100%;left:0;right:0;z-index:9999;max-height:250px;overflow-y:auto;background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:var(--radius-sm);box-shadow:0 8px 24px rgba(0,0,0,0.4);display:none;"></div>
+                </div>
+                <div style="position: relative;">
+                    <label style="font-size: 0.85em; color: var(--text-secondary); display: block; margin-bottom: 4px;">To</label>
+                    <input id="to-search" type="text" placeholder="Type a station name..."
+                        autocomplete="off"
+                        style="padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); background: var(--bg-secondary); color: var(--text-primary); width: 100%; box-sizing: border-box; font-size: 1em;">
+                    <input id="to-stop-id" type="hidden">
+                    <div id="to-dropdown" style="position:absolute;top:100%;left:0;right:0;z-index:9999;max-height:250px;overflow-y:auto;background:var(--bg-primary);border:1px solid var(--border-primary);border-radius:var(--radius-sm);box-shadow:0 8px 24px rgba(0,0,0,0.4);display:none;"></div>
+                </div>
+            </div>
+            <div style="display: flex; gap: var(--space-sm); align-items: flex-end;">
+                <div>
+                    <label style="font-size: 0.85em; color: var(--text-secondary); display: block; margin-bottom: 4px;">Depart at</label>
+                    <input id="depart-time" type="time" value="08:30"
+                        style="padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); background: var(--bg-secondary); color: var(--text-primary); font-size: 1em;">
+                </div>
+                <div>
+                    <label style="font-size: 0.85em; color: var(--text-secondary); display: block; margin-bottom: 4px;">Date</label>
+                    <input id="depart-date" type="date"
+                        style="padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary); background: var(--bg-secondary); color: var(--text-primary); font-size: 1em;">
+                </div>
+                <div>
+                    <button id="find-route" class="btn btn-primary" style="padding: 10px 24px; font-size: 1em;">Find Route</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="route-loading" style="display: none; padding: var(--space-md); color: var(--text-secondary);">
+            Finding best route...
+        </div>
+        <div id="route-error" style="display: none; padding: var(--space-sm); color: #e74c3c;"></div>
+
+        <!-- Results: side by side -->
+        <div id="route-results" style="display: none;">
+            <div style="display: flex; gap: var(--space-md); flex-wrap: wrap;">
+                <div class="card" style="flex: 1; min-width: 300px;">
+                    <h3>Scheduled (GTFS Static)</h3>
+                    <div id="result-scheduled"></div>
+                </div>
+                <div class="card" style="flex: 1; min-width: 300px;">
+                    <h3>Historical (Data-Adjusted)</h3>
+                    <div id="result-historical"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="/js/routeFinder.js"></script>
